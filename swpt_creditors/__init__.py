@@ -375,5 +375,6 @@ configure_logging(
     associated_loggers=os.environ.get("APP_ASSOCIATED_LOGGERS", "").split(),
 )
 sys.excepthook = _excepthook
-signal.signal(signal.SIGTERM, _raise_keyboard_interrupt)
-signal.signal(signal.SIGINT, _raise_keyboard_interrupt)
+
+if signal.getsignal(signal.SIGTERM) in [signal.SIG_IGN, signal.SIG_DFL, None]:
+    signal.signal(signal.SIGTERM, _raise_keyboard_interrupt)
